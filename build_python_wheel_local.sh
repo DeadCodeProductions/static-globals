@@ -12,7 +12,7 @@ cmake -G Ninja .. -DCMAKE_BUILD_TYPE=Release \
 
 ninja 
 cd ..
-cp build/bin/make-globals-static python_src/static-globals
+cp build/bin/make-globals-static python_src/static_globals
 cp setup.py.in setup.py
 sed -i "s~THIS_DIR~$(pwd)~g" setup.py
 python -m build
