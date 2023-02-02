@@ -1,0 +1,2 @@
+include python_src/static_globals/py.typed
+include python_src/static_globals/make-globals-static
