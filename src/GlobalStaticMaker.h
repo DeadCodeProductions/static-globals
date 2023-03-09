@@ -3,6 +3,8 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <clang/Tooling/Transformer/RewriteRule.h>
 
+#include <llvm/ADT/DenseSet.h>
+
 namespace dead {
 namespace detail {
 
@@ -20,6 +22,7 @@ public:
 private:
   clang::transformer::RewriteRule Rule;
   std::map<std::string, clang::tooling::Replacements> &FileToReplacements;
+  llvm::DenseSet<unsigned> AnnotatedLines;
 };
 } // namespace detail
 

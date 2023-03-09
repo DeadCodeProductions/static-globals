@@ -144,3 +144,29 @@ TEST_CASE("MakeGlobalsStatic extern function") {
   CAPTURE(Code);
   REQUIRE(formatCode(ExpectedCode) == runMakeGlobalsStaticOnCode(Code));
 }
+
+TEST_CASE("MakeGlobalsStatic two variables in one line") {
+  auto Code = R"code(
+    int a, b;
+    )code";
+
+  auto ExpectedCode = R"code(
+    static int a, b;
+    )code";
+
+  CAPTURE(Code);
+  REQUIRE(formatCode(ExpectedCode) == runMakeGlobalsStaticOnCode(Code));
+}
+
+TEST_CASE("MakeGlobalsStatic two variables in one line already static") {
+  auto Code = R"code(
+    static int a, b;
+    )code";
+
+  auto ExpectedCode = R"code(
+    static int a, b;
+    )code";
+
+  CAPTURE(Code);
+  REQUIRE(formatCode(ExpectedCode) == runMakeGlobalsStaticOnCode(Code));
+}

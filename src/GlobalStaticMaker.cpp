@@ -1,5 +1,7 @@
 #include "GlobalStaticMaker.h"
 
+#include <llvm/ADT/DenseSet.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
 #include <clang/ASTMatchers/ASTMatchers.h>
 #include <clang/Basic/Specifiers.h>
 #include <clang/Basic/Version.h>
@@ -83,6 +85,10 @@ void detail::RuleActionCallback::run(
     auto SM = Result.SourceManager;
     for (const auto &T : *Edits) {
         assert(T.Kind == transformer::EditKind::Range);
+        auto Line =SM->getSpellingLineNumber(T.Range.getBegin());
+        if (AnnotatedLines.contains(Line))
+            continue;
+        AnnotatedLines.insert(Line);
         auto R = tooling::Replacement(*SM, T.Range, T.Replacement);
         auto &Replacements = FileToReplacements[std::string(R.getFilePath())];
         auto Err = Replacements.add(R);
