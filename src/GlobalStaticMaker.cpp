@@ -68,14 +68,14 @@ void detail::RuleActionCallback::run(
         llvm::errs() << "An error has occured.\n";
         return;
     }
-#if CLANG_VERSION_MAJOR == 15
+#if CLANG_VERSION_MAJOR == 15 ||  CLANG_VERSION_MAJOR == 16 || CLANG_VERSION_MAJOR == 17
     Expected<SmallVector<transformer::Edit, 1>> Edits =
         Rule.Cases[findSelectedCase(Result, Rule)].Edits(Result);
 #elif CLANG_VERSION_MAJOR == 14
     Expected<SmallVector<transformer::Edit, 1>> Edits =
         findSelectedCase(Result, Rule).Edits(Result);
 #else
-#error "Only versions 14 and 15 are supported"
+#error "Only versions 14, 15, 16 and 17 are supported"
 #endif
     if (!Edits) {
         llvm::errs() << "Rewrite failed: " << llvm::toString(Edits.takeError())
